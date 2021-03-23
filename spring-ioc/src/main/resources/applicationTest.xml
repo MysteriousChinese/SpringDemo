@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- scope:prototype多例模式 ，singleton单例模式-->
+    <!-- lazy-init:true 延迟加载 。使用的时候再让ioc容器去实例化 ，false的话默认初始化这个xml配置的时候就会实例这个类-->
+    <!--<bean id="testDAO" class="org.example.DAO.impl.TestDAOImpl" scope="singleton" lazy-init="true"/>
+    <bean id="testService" class="org.example.service.impl.TestServiceImpl">
+
+        &lt;!&ndash;name 代表testservice类中需要注入的属性对应的set方法名  ，ref指向当前IOC容器中设置的id为testDAO的bean&ndash;&gt;
+        &lt;!&ndash;<property name="testDAO" ref="testDAO" />&ndash;&gt;
+
+        &lt;!&ndash;构造函数注入 name为构造函数需要的参数的名称 ,ref指向IOC容器中指定ID的bean，当参数为普通值类型时，value可设置默认值&ndash;&gt;
+        &lt;!&ndash; 多构造函数的情况。 &ndash;&gt;
+        <constructor-arg name="dao" ref="testDAO" />
+        <constructor-arg name="v" value="测试" />
+
+    </bean>-->
+
+    <!--<context:component-scan base-package="org.example" />-->
+    <context:property-placeholder location="user.properties" file-encoding="UTF-8" />
+    <bean id="propertyConfigurerForEnv"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       <!-- <property name="locations">
+            <list>
+                <value>user.properties</value>
+            </list>
+        </property>-->
+    </bean>
+
+</beans>

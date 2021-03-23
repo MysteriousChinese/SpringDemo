@@ -1,0 +1,5 @@
+# Project exclude paths
+/spring-aop/target/
+/spring-ioc/target/
+/spring-transaction/target/
+/target/
