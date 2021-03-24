@@ -19,6 +19,6 @@ public class PropertiesDemo {
 
     public void Do(){
 
-        /*System.out.println(String.format("name=%s,age=%s,gender=%s", name, age, gender));*/
+        System.out.println(String.format("name=%s,age=%s,gender=%s", name, age, gender));
     }
 }

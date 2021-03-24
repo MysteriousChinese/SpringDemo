@@ -19,15 +19,15 @@
 
     </bean>-->
 
-    <!--<context:component-scan base-package="org.example" />-->
+    <context:component-scan base-package="org.example" />
     <context:property-placeholder location="user.properties" file-encoding="UTF-8" />
-    <bean id="propertyConfigurerForEnv"
+    <!--<bean id="propertyConfigurerForEnv"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-       <!-- <property name="locations">
+       &lt;!&ndash; <property name="locations">
             <list>
                 <value>user.properties</value>
             </list>
-        </property>-->
-    </bean>
+        </property>&ndash;&gt;
+    </bean>-->
 
 </beans>

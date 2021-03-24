@@ -11,8 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class App
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) {
 
         //配置文件方式 实例化
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationTest.xml");
