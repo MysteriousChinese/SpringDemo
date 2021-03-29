@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--namespace 命令空间唯一标识符，一般用类的类路径，因为是唯一的-->
+<mapper namespace="Mybatis.UserDao_Mapper">
+    <!--id 对应的映射的类当中的方法名-->
+<!--    <insert id="Insert">
+insert into user_tb (user_id,user_name,user_password,user_age) values (#{})
+    </insert>-->
+
+    <select id="Query" resultType="Mybatis.Model.User">
+        select * from user_tb
+    </select>
+</mapper>

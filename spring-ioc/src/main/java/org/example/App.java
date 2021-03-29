@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.service.Interface.ITestService;
+import org.example.service.impl.TestServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,10 +17,11 @@ public class App
         //配置文件方式 实例化
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationTest.xml");
         //两种写法一样
-        /*ITestService testService = (ITestService)context.getBean("testService");
-        testService = context.getBean("", ITestService.class);
-        testService.Query();*/
+        TestServiceImpl testServiceImpl = context.getBean("testServiceImpl", TestServiceImpl.class);
+        testServiceImpl.Query();
 
+        ITestService testService = context.getBean("testServiceImpl", ITestService.class);
+        testService.Query();
 
         /*
         * 注解方式 注册ioc：

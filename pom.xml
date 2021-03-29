@@ -11,6 +11,7 @@
     <module>spring-ioc</module>
     <module>spring-aop</module>
     <module>spring-transaction</module>
+    <module>Mybatis</module>
   </modules>
 
   <name>SpringDemo</name>
@@ -56,10 +57,25 @@
       <version>5.2.5.RELEASE</version>
     </dependency>
 
+    <!--mysql驱动-->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.21</version>
+    </dependency>
+
+    <!--mybatis依赖-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.2.8</version>
+    </dependency>
+
+    <!--spring整合了muybatis的依赖-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>1.2.2</version>
     </dependency>
 
   </dependencies>

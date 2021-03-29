@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--配置信息注册到mybatis框架中-->
+    <properties resource="jdbc-connection.properties"/>
+
+<!--    <typeAliases>
+        <package name=""/>
+    </typeAliases>-->
+
+    <!--配置mybatis数据源，可以配置多个environments ，mysql,sqlserver,oracle-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--
+                JDBC:事务交给自带的数据库执行
+                MANAGED:不进行事务控制，交由容器管理事务
+            -->
+            <transactionManager type="JDBC"></transactionManager>
+
+            <!--
+                数据源类型：
+                  UNPOOLED:每个数据库请求都会新打开连接和关闭（不使用连接池）
+                  POOLED:使用数据库连接池获取连接
+                  JNDI:EJB方式创建数据源
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver_class}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.user}"/>
+                <property name="password" value="${jdbc.pswd}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="Mapper/user_mapper.xml"></mapper>
+    </mappers>
+</configuration>

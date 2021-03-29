@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="database" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <!--<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />-->
+    <context:property-placeholder location="jdbc-connect.properties" file-encoding="UTF-8" />
+
+    <!--配置数据源-->
+    <bean id="myDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+        <property name="driverClassName" value="${jdbc.driver_class}" />
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.pswd}"/>
+    </bean>
+
+    <!--配置jdbc操作类-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" >
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--配置jdbc事务管理器-->
+    <bean id="transcationManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="myDataSource" />
+    </bean>
+
+    <!--配置通知和切入点-->
+ <!--   <aop:config>
+        <aop:pointcut id="pCut" expression="execution(* DAO..*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pCut"/>
+    </aop:config>-->
+
+    <!--通知（拦截的方法）-->
+    <!--<tx:advice id="txAdvice" transaction-manager="transcationManager" >
+        <tx:attributes>
+            <tx:method name="*" isolation="REPEATABLE_READ" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+        </tx:attributes>
+    </tx:advice>-->
+
+    <bean id="userDao" class="DAO.UserDaoImpl">
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <!--注解方式实现aop管理事务 注解采用@Transactional ； 上面注释的是采用配置的方式实现aop事务-->
+    <tx:annotation-driven transaction-manager="transcationManager"/>
+
+    <!--下面是mybatis配置相关-->
+    <!--配置sessionfactory-->
+    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="mapperLocations" value="Mapper/*_mapper.xml"/>
+    </bean>
+
+    <!--配置 生成mapper接口代理的对象-->
+    <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--具体哪个包里的接口需要生成代理-->
+        <property name="basePackage" value="Mybatis"/>
     </bean>
 
 </beans>
