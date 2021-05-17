@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--namespace 命令空间唯一标识符，一般用类的类路径，因为是唯一的-->
+<mapper namespace="Mybatis.UserDao_Mapper">
+
+    <!--
+         当数据库字段跟java类的属性名不一致时，有2中处理方式
+         1.sql语句时使用as
+         2.配置自定义映射关系
+    -->
+    <!-- 配置自定义映射关系-->
+    <resultMap id="userMap" type="user">
+        <!--主键-->
+        <id property="UserId" column="user_id"/>
+        <!--非主键-->
+        <result property="UserName" column="user_name"/>
+        <result property="UserPassword" column="user_password"/>
+        <result property="UserAge" column="user_age"/>
+    </resultMap>
+
+    <!--id 对应的映射的类当中的方法名-->
+    <!--    <insert id="Insert">
+    insert into user_tb (user_id,user_name,user_password,user_age) values (#{})
+        </insert>-->
+
+    <!--<select id="Query" resultType="Mybatis.Model.User">
+        /* 因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 */
+        select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb
+    </select>-->
+
+    <sql id="commonField">
+        `user_id`, `user_name`, `user_password`, `user_age`
+    </sql>
+
+    <select id="Query" resultMap="userMap">
+        <!--因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 -->
+        <!--select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb -->
+        select * from user_tb
+    </select>
+
+    <!--多个参数除了@Param()注解方式，好像只能用HashMap-->
+     <select id="QueryByHash" parameterType="Map" resultMap="userMap">
+         <!--因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 -->
+         <!--select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb -->
+         /* 0 代表方法传递的参数的位置索引*/
+         select <include refid="commonField"/> from user_tb where user_age = #{age} and user_name = #{name}
+     </select>
+
+    <!--where标签在 上一个条件不满足的情况下 会自动清除下一个条件开头的and 或者or-->
+    <select id="QueryByAnnotation" resultMap="userMap">
+        select <include refid="commonField"/> from user_tb
+        <where>
+            <if test="name != null and name != ''">
+                and user_name like concat('%',concat(#{name},'%'))
+            </if>
+
+            <if test="age != null and age != ''">
+            and user_age = #{age}
+            </if>
+
+            <!--这里加and也不会清除，因为上一个条件user_age = 19满足，所以mybatis不会清除下个条件开头的and-->
+            <!--and limit 1-->
+            limit 1
+        </where>
+
+    </select>
+
+
+    <insert id="Insert" parameterType="user" >
+        INSERT INTO `user_tb`(<include refid="commonField"/>)
+        VALUES (#{UserId},
+        <choose>
+            <when test="UserName == '' or UserName == null">
+                <bind name="defaultName" value="'default_name' + UserId"/>
+                #{defaultName},
+            </when>
+            <when test="UserName == 'gqx'">
+                <bind name="defaultName222" value="'admin'"/>
+                #{defaultName222},
+            </when>
+            <otherwise>
+                #{UserName},
+            </otherwise>
+        </choose>
+        #{UserPassword}, #{UserAge});
+    </insert>
+
+</mapper>
