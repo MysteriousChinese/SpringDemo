@@ -8,6 +8,6 @@
     <context:component-scan base-package="Aspect" />
 
     <!--开启Aop注解. proxy-target-class:true 代表强制使用cglib代理，false代表根据是否继承接口决定使用jdk代理还是cglib-->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:aspectj-autoproxy proxy-target-class="false"/>
 
 </beans>

@@ -6,10 +6,25 @@
 <configuration>
     <!--配置信息注册到mybatis框架中-->
     <properties resource="jdbc-connection.properties"/>
+    <settings>
+        <!--
+              配置 返回的经典数据库字段映射成java类的属性名
+              user_id -> userId
+        -->
+        <!--<setting name="mapUnderscoreToCamelCase" value="true"/>-->
 
-<!--    <typeAliases>
-        <package name=""/>
-    </typeAliases>-->
+        <!--打印sql执行的语句-->
+        <setting name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl"/>
+
+    </settings>
+
+    <!--配置别名。简化声明的类型-->
+    <typeAliases>
+        <!--第二种方式，配置指定类的别名-->
+        <typeAlias type="Mybatis.Model.User" alias="user"/>
+        <!--第一种方式，配置指定路径包下所有类自动生成别名-->
+        <package name="Mybatis.Model"/>
+    </typeAliases>
 
     <!--配置mybatis数据源，可以配置多个environments ，mysql,sqlserver,oracle-->
     <environments default="mysql">
@@ -35,6 +50,16 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="Mapper/user_mapper.xml"></mapper>
+        <!--<mapper resource="Mapper/user_mapper.xml"></mapper>-->
+
+        <!--基于xml的绝对路径  注意，绝对路径前面一点要加 file:  -->
+        <!--<mapper url="file:G:\JavaProject\SpringDemo\Mybatis\src\main\resources\Mapper\user_mapper.xml"/>-->
+
+        <!--基于mapper接口配置-->
+        <!--<mapper class=""/>-->
+
+        <!--扫描形式处理mapper集合-->
+        <package name="Mybatis"/>
+
     </mappers>
 </configuration>

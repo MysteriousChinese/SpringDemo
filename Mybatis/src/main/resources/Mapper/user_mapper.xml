@@ -3,12 +3,49 @@
 
 <!--namespace 命令空间唯一标识符，一般用类的类路径，因为是唯一的-->
 <mapper namespace="Mybatis.UserDao_Mapper">
-    <!--id 对应的映射的类当中的方法名-->
-<!--    <insert id="Insert">
-insert into user_tb (user_id,user_name,user_password,user_age) values (#{})
-    </insert>-->
 
-    <select id="Query" resultType="Mybatis.Model.User">
+    <!--
+         当数据库字段跟java类的属性名不一致时，有2中处理方式
+         1.sql语句时使用as
+         2.配置自定义映射关系
+    -->
+    <!-- 配置自定义映射关系-->
+    <resultMap id="userMap" type="user">
+        <!--主键-->
+        <id property="UserId" column="user_id"/>
+        <!--非主键-->
+        <result property="UserName" column="user_name"/>
+        <result property="UserPassword" column="user_password"/>
+        <result property="UserAge" column="user_age"/>
+    </resultMap>
+
+    <!--id 对应的映射的类当中的方法名-->
+    <!--    <insert id="Insert">
+    insert into user_tb (user_id,user_name,user_password,user_age) values (#{})
+        </insert>-->
+
+    <!--<select id="Query" resultType="Mybatis.Model.User">
+        /* 因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 */
+        select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb
+    </select>-->
+
+    <select id="Query" resultMap="userMap">
+        /* 因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 */
+        /*select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb*/
         select * from user_tb
     </select>
+
+    <!--多个参数除了@Param()注解方式，好像只能用HashMap-->
+    <!-- <select id="QueryByHash" parameterType="Map" resultMap="userMap">
+         /* 因为数据库字段和java类的属性名不一致，需要手动as 达到转换的效果 */
+         /*select user_id as UserId,user_name as UserName,user_password as UserPassword,user_age as UserAge from user_tb*/
+
+         /* 0 代表方法传递的参数的位置索引*/
+         select * from user_tb where user_age = #{age} and user_name = #{name}
+     </select>-->
+
+    <select id="QueryByAnnotation" resultMap="userMap">
+        select * from user_tb where user_age = #{age} and user_name = #{name}
+    </select>
+
 </mapper>
