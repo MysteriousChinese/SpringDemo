@@ -21,12 +21,12 @@ public class User {
     public User() {
     }
 
-  /*  public User(int ID, String name, int age,String password) {
+    public User(int ID, String name, int age,String password) {
         Id = ID;
         Name = name;
         Age = age;
         Password = password;
-    }*/
+    }
 
     public void setId(int ID) {
         Id = ID;

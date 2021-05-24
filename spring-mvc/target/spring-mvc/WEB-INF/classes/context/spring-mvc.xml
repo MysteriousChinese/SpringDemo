@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--扫描controller，handle文件夹下面的所有类，扫描多个文件夹-->
+    <context:component-scan base-package="Controller,handle" />
+
+
+    <!--注解驱动 ：mvc自定义标签 用来加载springmvc框架中所有的默认处理器 -->
+    <!--Spring 3.0.x中使用了mvc:annotation-driven后，默认会帮我们注册默认处理请求，参数和返回值的类，
+    其中最主要的两个类：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter ，
+    分别为HandlerMapping的实现类和HandlerAdapter的实现类，从3.1.x版本开始对应实现类改为了RequestMappingHandlerMapping和RequestMappingHandlerAdapter。-->
+    <mvc:annotation-driven/>
+
+    <!--不拦截静态资源的2种方式-->
+    <!--1， 这种虽然放行了静态资源，但也覆盖了默认的servlet分发配置，会导致其他请求无法分发-->
+    <!--<mvc:resources mapping="/static/css/**" location="/static/css/"/>
+    <mvc:resources mapping="/static/js/**" location="/static/js/"/>-->
+
+    <!--2,在springMVC-servlet.xml中配置<mvc:default-servlet-handler />后，
+    会在Spring MVC上下文中定义一个org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler，它会像一个检查员，
+    对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，就将该请求转由Web应用服务器默认的Servlet处理，
+    如果不是静态资源的请求，才由DispatcherServlet继续处理。 -->
+    <mvc:default-servlet-handler/>
+
+    <!--配置视图解析器-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--视图解析器 解析地址时匹配的前缀  最前面一定要加 /-->
+        <property name="prefix" value="/Views/"/>
+        <!--视图解析器 解析地址时匹配的后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <!--配置文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5242880"/>
+        <property name="maxInMemorySize" value="4096"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!--配置拦截器-->
+    <!--<mvc:interceptors>
+       &lt;!&ndash; <mvc:interceptor>
+            &lt;!&ndash;拦截所有请求&ndash;&gt;
+            <mvc:mapping path="/**"/>
+            <bean class="Interceptor.MyHandleInterceptor"/>
+        </mvc:interceptor>&ndash;&gt;
+        <mvc:interceptor>
+            &lt;!&ndash;拦截所有请求&ndash;&gt;
+            <mvc:mapping path="/file/**"/>
+            <bean class="Interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+</beans>
