@@ -28,6 +28,8 @@
 
     <!--配置spring-context框架版本常量-->
     <spring-context.version>5.2.5.RELEASE</spring-context.version>
+    <freeMarker.version>2.3.28</freeMarker.version>
+    <spring-context-support.version>5.3.6</spring-context-support.version>
   </properties>
 
 
@@ -41,6 +43,20 @@
       <version>${spring-context.version}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${freeMarker.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>${spring-context-support.version}</version>
+    </dependency>
+
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
@@ -51,6 +67,7 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
+      <!--provided作用域：只提供访问，项目打包时不包含此依赖-->
       <scope>provided</scope>
     </dependency>
 

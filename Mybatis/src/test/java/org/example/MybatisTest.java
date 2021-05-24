@@ -46,8 +46,9 @@ public class MybatisTest extends AppTest {
         String[] s = new String[]{};
     }
 
-    @Test  //基于 代理生成的接口对应 的实现类，直接调用其方法
+    @Test
     public void TestByProxy(){
+        //基于 代理生成的接口对应 的实现类，直接调用其方法
         UserDao_Mapper mapper = sqlSession.getMapper(UserDao_Mapper.class);
 
      /*   System.out.println("*******************  HashMap  ********************");
